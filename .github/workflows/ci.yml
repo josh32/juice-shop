@@ -67,5 +67,5 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: "Snyk container scan"
         run: snyk container test || true
-          env:
+        env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
