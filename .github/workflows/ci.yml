@@ -54,11 +54,11 @@ jobs:
           npm run lint:config -- -f ./config/tutorial.yml
           npm run lint:config -- -f ./config/unsafe.yml
       - name: "Snyk library issue test"
-        run: snyk test --org=securianteam2-org --all-sub-projects --reachable || true
+        run: snyk test --org=securianteam2-org --all-projects --reachable || true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: "Snyk library issues to snyk.io"
-        run: snyk monitor --org=securianteam2-org --all-sub-projects --reachable
+        run: snyk monitor --org=securianteam2-org --all-projects --reachable
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: "Snyk code scan test"
