@@ -2,6 +2,7 @@ name: "CI/CD Pipeline"
 on:
   push:
     branches-ignore:
+      - josh32-patch-1
       - l10n_develop
       - gh-pages
     paths-ignore:
@@ -21,6 +22,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - name: "Snyk GitHub Action"
+        uses: snyk/actions/setup@master
       - name: "Check out Git repository"
         uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f #v2: v2.3.4 available
       - name: "Use Node.js 14"
@@ -50,3 +53,15 @@ jobs:
           npm run lint:config -- -f ./config/quiet.yml
           npm run lint:config -- -f ./config/tutorial.yml
           npm run lint:config -- -f ./config/unsafe.yml
+      - name: "Snyk library issue test"
+        run: snyk test --org=securianteam2-org --all-sub-projects --reachable || true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: "Snyk library issues to snyk.io"
+        run: snyk monitor --org=securianteam2-org --all-sub-projects --reachable
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: "Snyk code scan test"
+        run: snyk code test --org=securianteam2-org || true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
