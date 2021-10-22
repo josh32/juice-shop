@@ -65,7 +65,3 @@ jobs:
         run: snyk code test --org=securianteam2-org || true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      - name: "Snyk container scan"
-        run: "snyk container test Dockerfile --org=securianteam2-org --file=Dockerfile || true"
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
